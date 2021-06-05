@@ -5,11 +5,20 @@ library(GGally)
 
 
 head(mtcars)
-?mtcars
 
 ##########################################
 # MPG vs transmision type - Boxplot
 ##########################################
+summary(my_cars)
+
+ggpairs(
+        my_cars,
+        lower = list(continuous = "smooth", size = 2, alpha = 0.5,binwidth = .5),
+        upper = list(continuous = wrap('cor', size = 2)),
+        title = "mtcars - Pairs"
+) + theme(axis.text = element_text(size = 7))
+
+
 my_cars <- mtcars %>% 
         mutate( mpg = mpg,
                    am = factor(am, labels = c("manual","automatic")),
@@ -69,10 +78,16 @@ summary(fit_all)
 fit_all$coefficients
 mean(fit_all$residuals)
 
-fit_5 <- lm(mpg ~ am + wt + qsec + drat + gear , data = my_cars)
+fit_5 <- lm(mpg ~ am + wt + qsec + disp + hp , data = my_cars)
 summary(fit_5)
 fit_5$coefficients
 mean(fit_5$residuals)
+
+fit_4 <- lm(mpg ~ wt + qsec + disp + hp , data = my_cars)
+summary(fit_4)
+fit_5$coefficients
+mean(fit_5$residuals)
+
 
 fit_3 <- lm(mpg ~ am + wt + qsec, data = my_cars)
 summary(fit_3)
@@ -82,11 +97,12 @@ mean(fit_3$residuals)
 
 par(mfrow = c(2,2))
 plot(fit_trans)
-plot(fit_all)
+plot(fit_2)
+plot(fit_3)
 plot(fit_4)
+plot(fit_5)
+plot(fit_all)
 
-summary(my_cars)
-ggpairs(my_cars, lower = list(continuous = "smooth"),title = "mtcars - Pairs")
 
 
 
